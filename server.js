@@ -7,6 +7,8 @@ const keys = require("./config/keys");
 mongoose.connect(keys.mongoURI);
 
 const app = express();
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 app.use(express.static("public"));
 app.get("/", (req, res) => {
