@@ -47,7 +47,7 @@ module.exports = (app) => {
         const user = await User.findOne({ _id: exercise.user });
 
         res.send({
-          _id: exercise.id,
+          _id: user._id,
           username: user.username,
           duration: exercise.duration,
           description: exercise.description,
@@ -72,7 +72,9 @@ module.exports = (app) => {
           }
         : { user: _id };
 
-    const exercises = await Exercise.find(query).limit(parseInt(limit));
+    const exercises = await Exercise.find(query)
+      .sort({ date: -1 })
+      .limit(parseInt(limit));
 
     const logs = exercises.map((exercise) => {
       return {
@@ -86,7 +88,7 @@ module.exports = (app) => {
       _id: user._id,
       username: user.username,
       count: exercises.length,
-      logs: logs,
+      log: logs,
     });
   });
 };
